@@ -1,18 +1,13 @@
-# Genomics 1 Tutorial Resources (2024-2025) 🌟
+# Genomics Tutorial 2023_2024 🌟
 
-Teaching and student resources for the Genomics 1 Tutorial as part of the Computational Biology 1 module in the MSc in Technologies and Analytics in Precision Medicine.
-
----
-
-## Overview 🔬
-This tutorial introduces students to the essential tools and techniques for working with genomic data:
-
-1. **Manipulating VCF files** using BCFtools and VCFtools. 🛠️
-2. **Annotating VCF files** with ANNOVAR to identify variants of interest. 🧬
+For this tutorial, students will be shown how to:
+1. **Manipulate VCFs** using both BCFtools and VCFtools. 🛠️
+2. **Annotate a VCF** using ANNOVAR and identify variants of interest. 🧬
 
 ### Data 📂
+Students are provided with VCFs from the TruSeq Cardio Panel sequenced using Illumina:
 - **Demonstration File:** `NA12877-r19_S41.vcf`
-- **Practice File:** `SAMPLE2.vcf` (Located in each student's directory at `/home/data/tapm/genomics/2023_2024/STUDENT_NAME`)
+- **Practice File:** `SAMPLE2.vcf` (copy located in each student directory at `/home/data/tapm/genomics/2023_2024/STUDENT_NAME`)
 
 ---
 
@@ -33,10 +28,8 @@ This tutorial introduces students to the essential tools and techniques for work
 
 ---
 
-## Tools and Tasks 🛠️
-
-### 1. BCFtools 🧰
-**BCFtools** is a powerful tool for manipulating VCFs and BCFs. [More Info](http://samtools.github.io/bcftools/bcftools.html)
+## 1. BCFtools 🧰
+**BCFtools** is widely used as part of NGS pipelines for variant calling and manipulating VCFs/BCFs. [More Info](http://samtools.github.io/bcftools/bcftools.html)
 
 **Load Module:**
 ```bash
@@ -44,32 +37,48 @@ module purge
 module load BCFtools/1.12-GCC-10.2.0
 ```
 
-#### Tasks:
-- **Zip a VCF:** 📦
+### Tasks:
+
+#### Task 1.1: Zip a VCF 📦
+Compress a large VCF file:
+```bash
+bgzip /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf
+```
+To uncompress:
+```bash
+gunzip /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
+```
+
+#### Task 1.2: Index a VCF 🗂️
+Create an index file for fast data retrieval:
+```bash
+tabix /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
+```
+
+#### Task 1.3: View VCF or Header 📋
+- Full VCF:
   ```bash
-  bgzip /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf
+  bcftools view /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
   ```
-- **Unzip a VCF:** 📤
-  ```bash
-  gunzip /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
-  ```
-- **Index a VCF:** 🗂️
-  ```bash
-  tabix /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
-  ```
-- **View VCF Header:** 📋
+- Header only:
   ```bash
   bcftools view -h /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
   ```
-- **View Specific Regions:** 🌍
+
+#### Task 1.4: View Specific Locations 🌍
+- Specific chromosome:
+  ```bash
+  bcftools view -r chr11 /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
+  ```
+- Specific region:
   ```bash
   bcftools view -r chr11:116820959-116821618 /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
   ```
 
 ---
 
-### 2. VCFtools 🧪
-**VCFtools** specializes in filtering, comparing, and converting VCF files. [More Info](http://vcftools.sourceforge.net/man_latest.html)
+## 2. VCFtools 🧪
+**VCFtools** is designed for filtering, comparing, converting, merging, and subsetting VCF files. [More Info](http://vcftools.sourceforge.net/man_latest.html)
 
 **Load Module:**
 ```bash
@@ -77,35 +86,43 @@ module purge
 module load VCFtools/0.1.16-GCC-9.3.0/
 ```
 
-#### Tasks:
-- **Filter by Chromosome:** 🧭
+### Tasks:
+
+#### Task 2.1: Include or Exclude Chromosomes 🧭
+- Include only chromosome 11:
   ```bash
   vcftools --chr chr11 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out chr11_variants
   ```
-- **Exclude Chromosome:** 🚫
+- Exclude chromosome 11:
   ```bash
   vcftools --not-chr chr11 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out exclude_chr11
   ```
-- **Filter by BED File:** 🛏️
+
+#### Task 2.2: Use BED Files 🛏️
+- Include variants from `regions.bed`:
   ```bash
   vcftools --bed /home/data/tapm/genomics/ref/regions.bed --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out filtered_variants
   ```
-- **Exclude BED File:** ❌
+- Exclude variants from `regions.bed`:
   ```bash
   vcftools --exclude-bed /home/data/tapm/genomics/ref/regions.bed --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out exclude_bed
   ```
-- **Filter by Quality (GQ > 90):** 🎯
-  ```bash
-  vcftools --minGQ 90 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out high_quality
-  ```
-- **Filter by Depth (DP ≥ 500):** 🕳️
-  ```bash
-  vcftools --minDP 500 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out high_depth
-  ```
+
+#### Task 2.3: Filter by Quality 🎯
+Filter for genotype quality (GQ > 90):
+```bash
+vcftools --minGQ 90 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out high_quality
+```
+
+#### Task 2.4: Filter by Depth 🕳️
+Filter for sequencing depth (DP ≥ 500):
+```bash
+vcftools --minDP 500 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out high_depth
+```
 
 ---
 
-### 3. ANNOVAR 🖋️
+## 3. ANNOVAR 🖋️
 **ANNOVAR** annotates variants with gene, frequency, and pathogenicity information. [More Info](https://annovar.openbioinformatics.org/en/latest/)
 
 **Load Module:**
@@ -114,7 +131,8 @@ module purge
 module load annovar/20191024-GCCcore-8.2.0-Perl-5.28.1
 ```
 
-#### Annotate VCF:
+### Task 3.1: Annotate VCF ✍️
+Annotate with gene, minor allele frequency (gnomAD), and pathogenicity (ClinVar):
 ```bash
 table_annovar.pl /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz \
   /home/data/tapm/genomics/ref/humandb -buildver hg38 \
@@ -126,12 +144,13 @@ table_annovar.pl /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz 
 ---
 
 ## Student Task 🎓
-- Use `SAMPLE2.vcf` to replicate all the commands demonstrated in this tutorial.
-- Answer the following questions:
-  1. Does the patient have a known pathogenic variant in any gene? 🧬
-  2. What is the variant position, cDNA, and amino acid change? 📍
-  3. What type of variant is this? 🧫
-  4. What is the frequency of the variant in the gnomAD control population? 🌐
+Repeat the above commands using `SAMPLE2.vcf`.
+
+### Questions:
+1. Does the patient have a known pathogenic variant in any gene? 🧬
+2. What is the variant position, cDNA, and amino acid change? 📍
+3. What type of variant is this? 🧫
+4. What is the frequency of the variant in the gnomAD control population? 🌐
 
 ---
 
