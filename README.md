@@ -9,6 +9,16 @@ Students are provided with VCFs from the TruSeq Cardio Panel sequenced using Ill
 - **Demonstration File:** `NA12877-r19_S41.vcf`
 - **Practice File:** `SAMPLE2.vcf` (copy located in each student directory at `/home/data/tapm/genomics/2023_2024/STUDENT_NAME`)
 
+### Tools Overview 🧰
+
+The tools introduced in this tutorial play a crucial role in genomic data analysis, particularly in handling and interpreting Variant Call Format (VCF) files, which are commonly used in next-generation sequencing (NGS) workflows.
+
+1. **BCFtools**: A powerful tool for manipulating VCF and BCF files, enabling efficient operations such as compression, indexing, and querying. It's crucial for working with large VCF files, as it supports the fast retrieval of data and manipulation of variant call data. [More Info](http://samtools.github.io/bcftools/bcftools.html)
+
+2. **VCFtools**: Designed specifically for filtering, comparing, and analyzing VCF files, this tool helps in narrowing down variants of interest based on criteria like chromosome, genotype quality (GQ), and sequencing depth (DP). It simplifies the process of preparing data for downstream analysis by efficiently parsing large VCF files. [More Info](http://vcftools.sourceforge.net/man_latest.html)
+
+3. **ANNOVAR**: This tool annotates genetic variants with additional information such as gene names, minor allele frequency (gnomAD), and pathogenicity (ClinVar). It's invaluable in clinical genomics for identifying whether a variant is known to be pathogenic or benign. [More Info](https://annovar.openbioinformatics.org/en/latest/)
+
 ---
 
 ## Set-Up Instructions 💻
