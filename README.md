@@ -46,6 +46,13 @@ cp /home/data/tapm/cb1/genomics1/2024_2025/vcfs/*vcf /home/data/tapm/cb1/genomic
 ```
 - make sure to replace your full name with the name of your folder!
 
+**move to your folder**
+```bash
+cd /home/data/tapm/cb1/genomics1/2024_2025/your_full_name
+pwd
+```
+- pwd should print out your current directory and you should see the above
+
 ## 1. BCFtools 🧰
 **BCFtools** is widely used as part of NGS pipelines for variant calling and manipulating VCFs/BCFs. [More Info](http://samtools.github.io/bcftools/bcftools.html)
 
