@@ -33,12 +33,18 @@ The tools introduced in this tutorial play a crucial role in genomic data analys
 ---
 
 ## 1. Getting Started
-**Create a folder in `/home/data/tapm/cb1/genomics1/2024_2025/`)
+**Create a folder** in `/home/data/tapm/cb1/genomics1/2024_2025/`)
 ```bash
 cd /home/data/tapm/cb1/genomics1/2024_2025/
 mkdir your_full_name
 ```
 - make sure to use lowercase and _ instead of a space!
+
+**Copy VCF files** in `/home/data/tapm/cb1/genomics1/2024_2025/vcfs`)
+```bash
+cp /home/data/tapm/cb1/genomics1/2024_2025/*vcf /home/data/tapm/cb1/genomics1/2024_2025/your_full_name
+```
+- make sure to replace your full name with the name of your folder!
 
 ## 1. BCFtools 🧰
 **BCFtools** is widely used as part of NGS pipelines for variant calling and manipulating VCFs/BCFs. [More Info](http://samtools.github.io/bcftools/bcftools.html)
