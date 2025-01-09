@@ -129,7 +129,7 @@ module load VCFtools/0.1.16-GCC-9.3.0/
   ```
 - Exclude chromosome 11:
   ```bash
-  vcftools --not-chr chr11 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out /home/data/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41_excluding_chr11
+  vcftools --not-chr chr11 --gzvcf /home/data/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz --recode --out /home/data/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41_excluding_chr11
   ```
 
 #### Task 2.2: Use BED Files 🛏️
