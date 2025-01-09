@@ -7,7 +7,7 @@ For this tutorial, students will be shown how to:
 ### Data 📂
 Students are provided with VCFs from the TruSeq Cardio Panel sequenced using Illumina:
 - **Demonstration File:** `NA12877-r19_S41.vcf`
-- **Practice File:** `SAMPLE2.vcf` (copy located in each student directory at `/home/data/tapm/genomics/2023_2024/STUDENT_NAME`)
+- **Practice File:** `SAMPLE2.vcf` (copy located in each student directory at `/home/data/tapm/cb1/genomics1/2024_2025/STUDENT_NAME`)
 
 ### Tools Overview 🧰
 
@@ -23,18 +23,11 @@ The tools introduced in this tutorial play a crucial role in genomic data analys
 
 ## Set-Up Instructions 💻
 
-1. **Log in to the RCSI Compute System**:
-   - Navigate to: `connect.rcsi.com` or `rcsiglobal.cloud.com/Citrix/StoreWeb/#/home` 🌐
-   - Sign in and select the correct machine.
-
-2. **Open PuTTY**:
+ **Open PuTTY**:
    - Host Name: `prdubrhpc1.research.rcsi.com`
    - Adjust settings:
      - `Connection -> SSH -> Auth -> GSSAPI`: Uncheck **'Attempt GSSAPI authentication (SSH-2 only)'** and **'Attempt GSSAPI key exchange (SSH-2 only)'**. 🚀
      - `Connection -> SSH -> Auth`: Uncheck **'Attempt authentication using Pageant'** and check **'Attempt 'keyboard-interactive' auth (SSH-2)'**. 🔑
-
-3. **File Navigation**:
-   - Use File Explorer to access directories: `\\data.research.rcsi.com\tapm\genomics\2023_2024\STUDENT_NAME`. 📁
 
 ---
 
@@ -52,43 +45,47 @@ module load BCFtools/1.12-GCC-10.2.0
 #### Task 1.1: Zip a VCF 📦
 Compress a large VCF file:
 ```bash
-bgzip /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf
+bgzip /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf
 ```
-To uncompress:
+To uncompress (no need to do this but just so you know):
 ```bash
-gunzip /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
+gunzip /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz
 ```
 
 #### Task 1.2: Index a VCF 🗂️
 Create an index file for fast data retrieval:
 ```bash
-tabix /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
+tabix /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz
 ```
 
 #### Task 1.3: View VCF or Header 📋
 - Full VCF:
   ```bash
-  bcftools view /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
+  bcftools view /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz
   ```
 - Header only:
   ```bash
-  bcftools view -h /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
+  bcftools view -h /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz
   ```
 
 #### Task 1.4: View Specific Locations 🌍
 - Specific chromosome:
   ```bash
-  bcftools view -r chr11 /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
+  bcftools view -r chr11 /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz
   ```
 - Specific region:
   ```bash
-  bcftools view -r chr11:116820959-116821618 /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz
+  bcftools view -r chr11:116820959-116821618 /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz
   ```
 
 ---
 
 ## 2. VCFtools 🧪
 **VCFtools** is designed for filtering, comparing, converting, merging, and subsetting VCF files. [More Info](http://vcftools.sourceforge.net/man_latest.html)
+
+- As for BCFtools, VCFtools can also be used to filter a VCF based on position.
+- --gvcf is used to load a gzipped VCF file 
+- --out is used to specify an output file
 
 **Load Module:**
 ```bash
@@ -101,33 +98,37 @@ module load VCFtools/0.1.16-GCC-9.3.0/
 #### Task 2.1: Include or Exclude Chromosomes 🧭
 - Include only chromosome 11:
   ```bash
-  vcftools --chr chr11 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out chr11_variants
+  vcftools --chr chr11 --gzvcf /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz --recode --out /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41_chr11
   ```
 - Exclude chromosome 11:
   ```bash
-  vcftools --not-chr chr11 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out exclude_chr11
+  vcftools --not-chr chr11 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41_excluding_chr11
   ```
 
 #### Task 2.2: Use BED Files 🛏️
+- A bed file is a tab delimited text file which is used to store genomic regions as coordinates. It contains at a minimum three columns (chrom, chromStart and chromEnd).
+- A bed file of regions of interest can be used by VCFtools for filtering of variants. A site will be kept or excluded if any part of any allele (REF or ALT) at a site is within the range of one of the BED entries.
+- You have been provided with a sample bed file called regions.bed at /home/data/tapm/genomics/ref which contains a list of sites on chromosome 2.
+
 - Include variants from `regions.bed`:
   ```bash
-  vcftools --bed /home/data/tapm/genomics/ref/regions.bed --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out filtered_variants
+  vcftools --bed --out /home/tapm/cb1/genomics1/2024_2025/ref/regions.bed --gzvcf /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz --recode --out filtered_variants
   ```
 - Exclude variants from `regions.bed`:
   ```bash
-  vcftools --exclude-bed /home/data/tapm/genomics/ref/regions.bed --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out exclude_bed
+  vcftools --exclude-bed /home/tapm/cb1/genomics1/2024_2025/ref/regions.bed --gzvcf /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz --recode --out exclude_bed
   ```
 
 #### Task 2.3: Filter by Quality 🎯
 Filter for genotype quality (GQ > 90):
 ```bash
-vcftools --minGQ 90 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out high_quality
+vcftools --minGQ 90 --gzvcf /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz --recode --out high_quality
 ```
 
 #### Task 2.4: Filter by Depth 🕳️
 Filter for sequencing depth (DP ≥ 500):
 ```bash
-vcftools --minDP 500 --gzvcf /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz --recode --out high_depth
+vcftools --minDP 500 --gzvcf /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz --recode --out high_depth
 ```
 
 ---
@@ -144,8 +145,8 @@ module load annovar/20191024-GCCcore-8.2.0-Perl-5.28.1
 ### Task 3.1: Annotate VCF ✍️
 Annotate with gene, minor allele frequency (gnomAD), and pathogenicity (ClinVar):
 ```bash
-table_annovar.pl /home/data/tapm/genomics/2023_2024/demo/NA12877-r19_S41.vcf.gz \
-  /home/data/tapm/genomics/ref/humandb -buildver hg38 \
+table_annovar.pl /home/tapm/cb1/genomics1/2024_2025/STUDENT_NAME/NA12877-r19_S41.vcf.gz \
+  /home/tapm/cb1/genomics1/2024_2025/ref/humandb -buildver hg38 \
   -out annotated_file --remove \
   --protocol refGene,gnomad_exome,clinvar_20210501 \
   --operation g,f,f -nastring . --vcfinput --polish
