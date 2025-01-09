@@ -7,7 +7,8 @@ For this tutorial, students will be shown how to:
 ### Data 📂
 Students are provided with VCFs from the TruSeq Cardio Panel sequenced using Illumina:
 - **Demonstration File:** `NA12877-r19_S41.vcf`
-- **Practice File:** `SAMPLE2.vcf` (copy located in each student directory at `/home/data/tapm/cb1/genomics1/2024_2025/STUDENT_NAME`)
+- **Practice File:** `SAMPLE2.vcf`
+- Both located in  `/home/data/tapm/cb1/genomics1/2024_2025/vcfs`)
 
 ### Tools Overview 🧰
 
@@ -30,6 +31,14 @@ The tools introduced in this tutorial play a crucial role in genomic data analys
      - `Connection -> SSH -> Auth`: Uncheck **'Attempt authentication using Pageant'** and check **'Attempt 'keyboard-interactive' auth (SSH-2)'**. 🔑
 
 ---
+
+## 1. Getting Started
+**Create a folder in `/home/data/tapm/cb1/genomics1/2024_2025/`)
+```bash
+cd /home/data/tapm/cb1/genomics1/2024_2025/
+mkdir your_full_name
+```
+- make sure to use lowercase and _ instead of a space!
 
 ## 1. BCFtools 🧰
 **BCFtools** is widely used as part of NGS pipelines for variant calling and manipulating VCFs/BCFs. [More Info](http://samtools.github.io/bcftools/bcftools.html)
