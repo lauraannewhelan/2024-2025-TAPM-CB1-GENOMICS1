@@ -42,7 +42,7 @@ mkdir your_full_name
 
 **Copy VCF files** in `/home/data/tapm/cb1/genomics1/2024_2025/vcfs`)
 ```bash
-cp /home/data/tapm/cb1/genomics1/2024_2025/*vcf /home/data/tapm/cb1/genomics1/2024_2025/your_full_name
+cp /home/data/tapm/cb1/genomics1/2024_2025/vcfs/*vcf /home/data/tapm/cb1/genomics1/2024_2025/your_full_name
 ```
 - make sure to replace your full name with the name of your folder!
 
