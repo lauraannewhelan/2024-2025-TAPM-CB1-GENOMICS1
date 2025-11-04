@@ -74,10 +74,6 @@ Compress a large VCF file:
 ```bash
 bgzip /home/data/tapm/cb/genomics1/2025_2026/[your_full_name]/NA12877-r19_S41.vcf
 ```
-To uncompress (no need to do this but just so you know):
-```bash
-gunzip /home/data/tapm/cb/genomics1/2025_2026/[your_full_name]/NA12877-r19_S41.vcf.gz
-```
 
 #### Task 1.2: Index a VCF 🗂️
 Create an index file for fast data retrieval:
