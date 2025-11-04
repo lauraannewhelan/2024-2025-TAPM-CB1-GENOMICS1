@@ -135,7 +135,10 @@ module load VCFtools/0.1.16-GCC-9.3.0/
 
 - Include variants from `regions.bed`:
   ```bash
-  vcftools --bed --out /home/data/tapm/cb/genomics1/2025_2026/ref/regions.bed --gzvcf /home/data/tapm/cb/genomics1/2025_2026/[your_full_name]/NA12877-r19_S41.vcf.gz --recode --out filtered_variants
+  vcftools --gzvcf /home/data/tapm/cb/genomics1/2025_2026/laura_whelan/NA12877-r19_S41.vcf.gz \
+  --bed /home/data/tapm/cb/genomics1/2025_2026/ref/regions.bed \
+  --recode \
+  --out filtered_variants
   ```
 - Exclude variants from `regions.bed`:
   ```bash
